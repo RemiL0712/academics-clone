@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import StatCard from "@/components/StatCard";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -166,267 +167,396 @@ export default function HomePage() {
       </section>
 
       {/* SATISFACTION + STATS */}
-      <section className="border-b bg-[var(--gs-bg)]">
-        <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-20 lg:flex-row lg:items-stretch">
-          
-          {/* LEFT TEXT BLOCK */}
-          <Reveal>
-            <div className="flex flex-1 flex-col justify-between rounded-3xl bg-[var(--gs-surface-soft)] px-10 py-12 shadow-sm">
-              <div>
-                <h2 className="mb-6 text-4xl font-semibold text-[var(--gs-primary-deep)]">
-                  100% study satisfaction in mind
-                </h2>
+      <section className="border-b bg-[var(--gs-hero-bg)]">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
 
-                <p className="mb-4 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
-                  We help you stay on top of your academic tasks and submit them on time 
-                  by keeping everything organised in one personal account.
-                </p>
+            {/* LEFT TEXT BLOCK */}
+            <Reveal>
+              <div className="w-full max-w-xl">
+                <div>
+                  <h2 className="mb-6 text-4xl font-semibold text-[var(--gs-primary-deep)]">
+                    100% study satisfaction in mind
+                  </h2>
 
-                <p className="mb-6 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
-                  Our support is available around the clock to answer questions, clarify 
-                  requirements and make sure you are happy with the assistance you receive.
-                </p>
+                  <p className="mb-4 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                    We help you stay on top of your academic tasks and submit them on time
+                    by keeping everything organised in one personal account.
+                  </p>
 
-                <div className="space-y-3 text-[15px] text-[var(--gs-text-muted)]">
-                  <div className="flex items-start gap-2">
-                    <span className="text-lg">😊</span>
-                    <span>We can help you manage your workload and keep deadlines under control.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-lg">😊</span>
-                    <span>Our team is ready to assist so you feel confident about every task.</span>
+                  <p className="mb-6 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                    Our support is available around the clock to answer questions, clarify
+                    requirements and make sure you are happy with the assistance you receive.
+                  </p>
+
+                  <div className="space-y-3 text-[15px] text-[var(--gs-text-muted)]">
+                    <div className="flex items-start gap-2">
+                      <span className="text-lg">😊</span>
+                      <span>We can help you manage your workload and keep deadlines under control.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-lg">😊</span>
+                      <span>Our team is ready to assist so you feel confident about every task.</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="mt-8">
-                <Link
-                  href="/order"
-                  className="inline-flex rounded-full bg-[var(--gs-primary)] px-8 py-3 text-[15px] font-medium text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--gs-primary-mid)] hover:shadow-md"
-                >
-                  Add task
-                </Link>
+                <div className="mt-8">
+                  <Link
+                    href="/order"
+                    className="inline-flex rounded-full bg-[var(--gs-primary)] px-8 py-3 text-[15px] font-medium text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--gs-primary-mid)] hover:shadow-md"
+                  >
+                    Add task
+                  </Link>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
 
-          {/* RIGHT: STATS */}
-          <Reveal delay={150}>
-            <div className="flex flex-1 items-center">
-              <div className="grid w-full grid-cols-2 gap-6 lg:gap-8">
+            {/* RIGHT: STATS */}
+            <Reveal delay={150}>
+              <div className="shrink-0">
+                <div className="grid grid-cols-2 gap-6">
                 <StatCard
                   title="WORDS WRITTEN"
                   subtitle="To date"
-                  value={150}
+                  target={150}
                   suffix="M+"
                 />
                 <StatCard
                   title="COUNTRIES"
                   subtitle="Where we offer support"
-                  value={15}
+                  target={15}
                   suffix="+"
                 />
                 <StatCard
                   title="CONTENT SERVED"
                   subtitle="Assignments processed"
-                  value={12}
+                  target={12}
                   suffix="K+"
                 />
                 <StatCard
                   title="CLIENTS"
                   subtitle="Students we've worked with"
-                  value={1.3}
+                  target={1.3}
                   suffix="K+"
+                  decimals={1}
                 />
               </div>
-            </div>
-          </Reveal>
 
-        </div>
-      </section>
+              </div>
+            </Reveal>
 
-      {/* BENEFITS */}
-      <section className="border-b bg-[var(--gs-bg)]">
-        <div className="mx-auto max-w-5xl px-4 py-14">
-          <Reveal>
-            <div className="mb-8 text-center">
-              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gs-primary-mid)]">
-                Why GenScript.online
-              </h2>
-              <h3 className="text-2xl font-semibold text-[var(--gs-primary-deep)]">
-                To succeed this semester, stay organised with us
-              </h3>
-            </div>
-          </Reveal>
-
-          <div className="grid gap-6 md:grid-cols-3 text-sm">
-            {[
-              {
-                title: "Organise your homework",
-                text: "All subjects, topics, files and instructions are stored in one account. You always know what has been ordered and what is coming next.",
-              },
-              {
-                title: "Stay on top of deadlines",
-                text: "Clear due dates and task statuses help you plan your time realistically and avoid last-minute rush before submission.",
-              },
-              {
-                title: "Get timely assistance",
-                text: "When you have questions about requirements or the progress of an order, support is there to clarify and keep things moving smoothly.",
-              },
-            ].map((item, index) => (
-              <Reveal key={item.title} delay={index * 150}>
-                <div className="group space-y-2 rounded-2xl border border-[var(--gs-border)] bg-[var(--gs-surface)] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--gs-primary)] hover:shadow-md">
-                  <h4 className="font-semibold text-[var(--gs-primary-deep)]">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs leading-relaxed text-[var(--gs-text-muted)]">
-                    {item.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section className="border-b bg-[var(--gs-surface-soft)]">
-        <div className="mx-auto max-w-5xl px-4 py-14">
-          <Reveal>
-            <div className="mb-8 text-center">
-              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gs-primary-mid)]">
-                Pricing
-              </h2>
-              <h3 className="text-2xl font-semibold text-[var(--gs-primary-deep)]">
-                Expenses and payments
-              </h3>
-            </div>
-          </Reveal>
 
-          <div className="grid gap-6 md:grid-cols-[1.1fr_1fr] text-sm">
+      {/* WHY GENSCRIPT + FEATURES */}
+      <section className="border-b bg-[var(--gs-bg-soft)]">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          {/* Heading */}
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gs-primary-mid)]">
+              WHY GENSCRIPT.ONLINE
+            </p>
+            <h2 className="text-3xl font-semibold text-[var(--gs-primary-deep)] md:text-4xl">
+              To succeed this semester, stay organised with us
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {/* Card 1 */}
             <Reveal>
-              <div className="rounded-2xl border border-[var(--gs-border)] bg-[var(--gs-surface)] p-5 shadow-sm">
-                <h4 className="mb-2 text-sm font-semibold text-[var(--gs-primary-deep)]">
+              <div className="flex flex-col items-center gap-8 rounded-3xl bg-[var(--gs-surface-soft)] px-8 py-10 shadow-sm md:flex-row md:justify-between">
+                <div className="max-w-xl">
+                  <h3 className="mb-3 text-2xl font-semibold text-[var(--gs-primary-deep)]">
+                    Organise your homework
+                  </h3>
+                  <p className="text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                    All subjects, topics, files and instructions are stored in one
+                    structured account, so you always know what has been added and
+                    what is coming next.
+                  </p>
+                </div>
+
+                <div className="w-full max-w-xs md:max-w-sm">
+                  <Image
+                    src="/home/why-organise.svg"
+                    alt="Organise your homework illustration"
+                    width={480}
+                    height={260}
+                    className="mx-auto h-auto w-full"
+                    priority={false}
+                  />
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Card 2 */}
+            <Reveal delay={120}>
+              <div className="flex flex-col items-center gap-8 rounded-3xl bg-[var(--gs-surface-soft)] px-8 py-10 shadow-sm md:flex-row-reverse md:justify-between">
+                <div className="max-w-xl">
+                  <h3 className="mb-3 text-2xl font-semibold text-[var(--gs-primary-deep)]">
+                    Stay on top of deadlines
+                  </h3>
+                  <p className="text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                    Clear due dates, reminders and task statuses help you plan your
+                    time realistically and avoid last-minute rushes before submission.
+                  </p>
+                </div>
+
+                <div className="w-full max-w-xs md:max-w-sm">
+                  <Image
+                    src="/home/why-deadlines.svg"
+                    alt="Stay on top of deadlines illustration"
+                    width={480}
+                    height={260}
+                    className="mx-auto h-auto w-full"
+                  />
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Card 3 */}
+            <Reveal delay={180}>
+              <div className="flex flex-col items-center gap-8 rounded-3xl bg-[var(--gs-surface-soft)] px-8 py-10 shadow-sm md:flex-row md:justify-between">
+                <div className="max-w-xl">
+                  <h3 className="mb-3 text-2xl font-semibold text-[var(--gs-primary-deep)]">
+                    Get timely assistance
+                  </h3>
+                  <p className="text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                    When you have questions about requirements or the progress of an
+                    order, support is there to clarify details, keep you informed and
+                    make sure everything runs smoothly.
+                  </p>
+                </div>
+
+                <div className="w-full max-w-xs md:max-w-sm">
+                  <Image
+                    src="/home/why-assistance.svg"
+                    alt="Get timely assistance illustration"
+                    width={480}
+                    height={260}
+                    className="mx-auto h-auto w-full"
+                  />
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING / EXPENSES AND PAYMENTS */}
+      <section className="border-b bg-[var(--gs-hero-bg)]">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          
+          {/* Heading */}
+          <div className="mb-10 text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gs-primary-mid)]">
+              Pricing
+            </p>
+            <h2 className="text-3xl font-semibold text-[var(--gs-primary-deep)] md:text-4xl">
+              Expenses and payments
+            </h2>
+          </div>
+
+          {/* Cards */}
+          <div className="h-full rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
+
+            {/* LEFT CARD — FREE SERVICES */}
+            <Reveal>
+              <div className="rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
+                <h3 className="mb-6 text-xl font-semibold text-[var(--gs-primary-deep)]">
                   Free services
-                </h4>
-                <ul className="space-y-1.5 text-xs text-[var(--gs-text-muted)]">
-                  <li>• Creating and managing orders in your account</li>
-                  <li>• Secure file upload and storage</li>
-                  <li>• Keeping your order history in one place</li>
-                  <li>• Continuous communication and basic support</li>
+                </h3>
+
+                <ul className="space-y-3 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                    <span>Creating and managing orders inside your account</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                    <span>Secure upload and safe storage of all attached files</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                    <span>Keeping the full order history in one place</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                    <span>Continuous communication and basic support at no extra cost</span>
+                  </li>
                 </ul>
               </div>
             </Reveal>
 
-            <Reveal delay={150}>
-              <div className="rounded-2xl border border-[var(--gs-border)] bg-[var(--gs-surface)] p-5 shadow-sm">
-                <h4 className="mb-2 text-sm font-semibold text-[var(--gs-primary-deep)]">
+            {/* RIGHT CARD — COST */}
+            <Reveal delay={120}>
+              <div className="rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
+                <h3 className="mb-6 text-xl font-semibold text-[var(--gs-primary-deep)]">
                   Starting cost
-                </h4>
-                <p className="mb-2 text-xs text-[var(--gs-text-muted)]">
-                  Pricing depends on the deadline, subject area and word
-                  count. Before confirming an order, you see an approximate
-                  price calculated from these parameters.
+                </h3>
+
+                <p className="mb-4 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                  Pricing depends on the deadline, subject area, complexity and word count. 
+                  Before confirming an order, you see an approximate total based on these factors.
                 </p>
-                <p className="mb-4 text-xs font-medium text-[var(--gs-dark)]">
-                  Our base rate starts at around{" "}
-                  <span className="font-semibold">$0.03</span> per word. Final
-                  pricing is always calculated individually.
+
+                <p className="mb-6 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
+                  Our base rate starts at <strong>$0.03 per word</strong>. Final pricing is 
+                  always adjusted individually so you only pay for what you actually need.
                 </p>
+
                 <Link
                   href="/order"
-                  className="inline-flex rounded-full bg-[var(--gs-primary)] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--gs-primary-mid)] hover:shadow-md"
+                  className="inline-flex rounded-full bg-[var(--gs-primary)] px-8 py-3 text-[15px] font-medium text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--gs-primary-mid)] hover:shadow-md"
                 >
                   Create an order
                 </Link>
               </div>
             </Reveal>
+
           </div>
         </div>
       </section>
 
       {/* DISCLAIMER */}
-      <section className="border-b bg-[var(--gs-surface)]">
-        <div className="mx-auto max-w-5xl px-4 py-14">
+      
+      <section className="py-24 bg-[var(--gs-page-bg)]">
+        <div className="max-w-5xl mx-auto px-6">
           <Reveal>
-            <div>
-              <h2 className="mb-3 text-xl font-semibold text-[var(--gs-primary-deep)]">
-                Disclaimer and academic integrity
-              </h2>
-              <p className="mb-3 text-sm text-[var(--gs-text-muted)]">
-                GenScript.online is designed as a learning support tool. The
-                materials you receive are intended to help you better understand
-                topics, structure your own work and prepare for classes.
-              </p>
-              <p className="mb-4 text-sm text-[var(--gs-text-muted)]">
-                We respect institutional academic policies and do not encourage
-                any use of our service that would violate your school or
-                university rules.
-              </p>
-              <Link
-                href="/code-of-ethics"
-                className="inline-flex text-sm font-medium text-[var(--gs-primary)] underline underline-offset-4 hover:text-[var(--gs-primary-mid)]"
-              >
-                View our code of ethics
-              </Link>
-            </div>
+            <h2 className="text-3xl md:text-4xl font-semibold text-[var(--gs-primary-deep)] mb-6">
+              Disclaimer and academic integrity
+            </h2>
+
+            <p className="text-[15px] md:text-[16px] leading-relaxed text-[var(--gs-text-muted)] mb-4">
+              GenScript.online is designed as a learning support tool. The materials you receive
+              are intended to help you better understand topics, structure your own work and
+              prepare for classes.
+            </p>
+
+            <p className="text-[15px] md:text-[16px] leading-relaxed text-[var(--gs-text-muted)] mb-6">
+              We respect institutional academic policies and do not encourage any use of our
+              service that would violate your school or university rules.
+            </p>
+
+            <a
+              href="/code-of-ethics"
+              className="inline-flex text-[15px] font-medium text-[var(--gs-primary)] hover:text-[var(--gs-primary-mid)] underline decoration-[var(--gs-primary)] decoration-1 underline-offset-4"
+            >
+              View our code of ethics
+            </a>
           </Reveal>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="border-b bg-[var(--gs-bg)]">
-        <div className="mx-auto max-w-5xl px-4 py-14">
+      {/* FAQ SECTION */}
+      <section className="py-24 bg-[var(--gs-hero-bg)]">
+        <div className="max-w-5xl mx-auto px-6">
+          
           <Reveal>
-            <div className="mb-8 text-center">
-              <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--gs-primary-mid)]">
-                Help
-              </h2>
-              <h3 className="text-2xl font-semibold text-[var(--gs-primary-deep)]">
+            <div className="text-center mb-12">
+              <span className="text-sm tracking-widest text-[var(--gs-primary)] font-semibold">
+                HELP
+              </span>
+              <h2 className="mt-2 text-4xl font-semibold text-[var(--gs-primary-deep)]">
                 Frequently asked questions
-              </h3>
+              </h2>
             </div>
           </Reveal>
 
-          <div className="space-y-5 text-sm">
-            {[
-              {
-                q: "How is the final price calculated?",
-                a: "The total cost depends on the deadline, subject area and the number of words or pages. An estimated price is shown before you confirm your order.",
-              },
-              {
-                q: "How does your academic assistance service work?",
-                a: "You submit task details such as topic, subject and instructions. Our team reviews the request and prepares a solution by the agreed deadline, making it available in your account.",
-              },
-              {
-                q: "Are the people working on my tasks qualified?",
-                a: "We collaborate with specialists who have relevant academic backgrounds and experience with academic writing, allowing us to handle tasks across different subjects and levels.",
-              },
-              {
-                q: "Can I trust you with my personal data?",
-                a: "Your account details and order information are processed according to our privacy policy and are not shared with unrelated third parties.",
-              },
-              {
-                q: "What if I'm not happy with the result?",
-                a: "If the delivered work does not match the initial requirements, you can request a revision. We aim to adjust the result so it aligns with what was agreed.",
-              },
-              {
-                q: "Do you handle urgent assignments?",
-                a: "Yes, in many cases we can work with tight deadlines. The feasibility depends on the complexity and volume, so placing urgent orders early is always recommended.",
-              },
-            ].map((item, index) => (
-              <Reveal key={item.q} delay={index * 120}>
-                <div className="rounded-2xl border border-[var(--gs-border)] bg-[var(--gs-surface)] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-                  <h4 className="mb-1 text-sm font-semibold text-[var(--gs-primary-deep)]">
-                    {item.q}
-                  </h4>
-                  <p className="text-xs text-[var(--gs-text-muted)]">{item.a}</p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="space-y-4">
+
+            {/* ITEM 1 */}
+            <Reveal>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  How is the final price calculated?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[15px] text-[var(--gs-text-muted)]">
+                  The total cost depends on the deadline, subject area, and number of words or pages.
+                  You see the estimated price before confirming your order.
+                </p>
+              </details>
+            </Reveal>
+
+            {/* ITEM 2 */}
+            <Reveal delay={100}>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  How does your academic assistance service work?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[15px] text-[var(--gs-text-muted)]">
+                  You submit your task details — topic, subject and instructions.  
+                  Our team reviews the request and prepares a solution by the agreed deadline,
+                  making it available inside your account.
+                </p>
+              </details>
+            </Reveal>
+
+            {/* ITEM 3 */}
+            <Reveal delay={150}>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  Are the people working on my tasks qualified?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[var(--gs-text-muted)] text-[15px]">
+                  We collaborate with specialists who have relevant academic backgrounds and experience
+                  with academic writing across different subjects and levels.
+                </p>
+              </details>
+            </Reveal>
+
+            {/* ITEM 4 */}
+            <Reveal delay={200}>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  Can I trust you with my personal data?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[var(--gs-text-muted)] text-[15px]">
+                  All account information is processed securely according to our privacy policy 
+                  and is never shared with third parties.
+                </p>
+              </details>
+            </Reveal>
+
+            {/* ITEM 5 */}
+            <Reveal delay={250}>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  What if I'm not happy with the result?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[var(--gs-text-muted)] text-[15px]">
+                  If something does not match your initial requirements, you can request a revision.
+                  We make corrections until your task fully aligns with what was agreed.
+                </p>
+              </details>
+            </Reveal>
+
+            {/* ITEM 6 */}
+            <Reveal delay={300}>
+              <details className="group bg-white rounded-xl p-6 shadow-sm border border-[var(--gs-border)]">
+                <summary className="cursor-pointer text-lg font-medium text-[var(--gs-primary-deep)] flex justify-between items-center">
+                  Do you handle urgent assignments?
+                  <span className="transition-transform group-open:rotate-90 text-[var(--gs-primary)]">›</span>
+                </summary>
+                <p className="mt-3 text-[var(--gs-text-muted)] text-[15px]">
+                  In many cases, yes — depending on the complexity and volume.  
+                  Placing urgent orders early is always recommended.
+                </p>
+              </details>
+            </Reveal>
+
           </div>
         </div>
       </section>
+
     </main>
   );
 }

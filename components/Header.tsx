@@ -106,7 +106,7 @@ export default function Header() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-xs text-zinc-200 hover:text-[var(--gs-accent)]"
+                className="hover:text-[var(--gs-accent)]"
               >
                 Logout ({user.name})
               </button>
