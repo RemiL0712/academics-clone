@@ -1,26 +1,51 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* ----------- Core backgrounds ----------- */
+  --gs-bg: #f5f7ff;              /* дуже світлий фон сторінки */
+  --gs-surface: #ffffff;         /* білі блоки */
+  --gs-surface-soft: #eef2ff;    /* мʼякий синюватий фон */
+  --gs-surface-strong: #d9e2ff;  /* виражений світло-синій фон */
+
+  /* ОДИН СПІЛЬНИЙ ФОН ДЛЯ HEADER + HERO */
+  --gs-hero-bg: #dbe4ff;
+
+  /* ----------- Blue palette (основа сайту) ----------- */
+  --gs-primary-lightest: #d6e4ff;
+  --gs-primary-lighter:  #b3c9ff;
+  --gs-primary-light:    #8aaeff;
+  --gs-primary:          #5a82ff;   /* основний синій (кнопки, лінки) */
+  --gs-primary-mid:      #3859cf;   /* глибший синій (заголовки, hover) */
+  --gs-primary-deep:     #1e3a8a;   /* дуже темний синій (strong accents) */
+
+  /* ----------- Accent (теплий жовтий як у прикладі) ----------- */
+  --gs-accent: #ffd76a;
+
+  /* ----------- Text ----------- */
+  --gs-dark: #111827;
+  --gs-text-muted: #6b7280;
+
+  /* ----------- Borders ----------- */
+  --gs-border: #d4d8e8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* База */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: var(--gs-bg);
+  color: var(--gs-dark);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
 }
