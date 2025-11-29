@@ -65,7 +65,7 @@ export default function Header() {
             Order Now
           </Link>
           <Link
-            href="/contact"
+            href="/contact-us"
             className="hover:text-[var(--gs-accent)]"
           >
             Contact Us
@@ -136,7 +136,7 @@ export default function Header() {
             <Link href="/order" onClick={() => setMobileOpen(false)}>
               Order Now
             </Link>
-            <Link href="/contact" onClick={() => setMobileOpen(false)}>
+            <Link href="/contact-us" onClick={() => setMobileOpen(false)}>
               Contact Us
             </Link>
 
