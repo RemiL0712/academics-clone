@@ -68,30 +68,39 @@ export default function OrderPage() {
       .join("\n");
 
     try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          type,
-          topic: topic || null,
-          deadline: deadlineDate.toISOString(),
-          pages,
-          details: combinedDetails || null,
-          status: "paid",
-        }),
-      });
+  const res = await fetch("/api/orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: user.id,
+      type,
+      topic: topic || null,
+      deadline: deadlineDate.toISOString(),
+      pages,
+      details: combinedDetails || null,
+      status: "pending",
+    }),
+  });
 
-      if (!res.ok) {
-        alert("Сталася помилка при створенні замовлення");
-        return;
-      }
+  if (!res.ok) {
+    alert("Сталася помилка при створенні замовлення");
+    return;
+  }
 
-      router.push("/dashboard");
-    } catch (err) {
-      console.error(err);
-      alert("Сталася помилка при створенні замовлення");
-    }
+  const data = await res.json();
+  const created = data.order;
+
+  if (!created?.id) {
+    alert("Не вдалося отримати ID замовлення");
+    return;
+  }
+
+  router.push(`/pay/${created.id}`);
+
+} catch (err) {
+  console.error(err);
+  alert("Сталася помилка при створенні замовлення");
+}
   };
 
   return (
