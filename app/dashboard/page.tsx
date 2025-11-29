@@ -20,6 +20,58 @@ type Order = {
   createdAt: string;
 };
 
+/* ----------------------------
+   БЕЙДЖІ СТАТУСІВ
+---------------------------- */
+
+const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
+  pending: {
+    label: "Pending payment",
+    className: "bg-amber-100 text-amber-700 ring-amber-200",
+  },
+  paid: {
+    label: "Paid",
+    className: "bg-emerald-100 text-emerald-700 ring-emerald-200",
+  },
+  in_progress: {
+    label: "In progress",
+    className: "bg-sky-100 text-sky-700 ring-sky-200",
+  },
+  completed: {
+    label: "Completed",
+    className: "bg-zinc-100 text-zinc-800 ring-zinc-300",
+  },
+  cancelled: {
+    label: "Cancelled",
+    className: "bg-rose-100 text-rose-700 ring-rose-200",
+  },
+};
+
+function StatusBadge({ status }: { status: string }) {
+  const key = status.toLowerCase();
+  const config =
+    STATUS_CONFIG[key] ??
+    ({
+      label: status,
+      className: "bg-zinc-100 text-zinc-700 ring-zinc-200",
+    } as const);
+
+  return (
+    <span
+      className={[
+        "inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset",
+        config.className,
+      ].join(" ")}
+    >
+      {config.label}
+    </span>
+  );
+}
+
+/* ----------------------------
+   DASHBOARD COMPONENT
+---------------------------- */
+
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -92,9 +144,7 @@ export default function DashboardPage() {
         )}
 
         {!loading && orders.length === 0 && (
-          <p className="text-sm text-zinc-600">
-            You have no orders yet.
-          </p>
+          <p className="text-sm text-zinc-600">You have no orders yet.</p>
         )}
 
         {!loading && orders.length > 0 && (
@@ -104,19 +154,20 @@ export default function DashboardPage() {
                 key={order.id}
                 className="flex items-start justify-between rounded-xl border border-[var(--gs-light)] bg-[var(--gs-bg)] px-4 py-3 text-sm"
               >
+                {/* Ліва частина */}
                 <div>
                   <div className="font-medium text-[var(--gs-dark)]">
                     {order.type}
                   </div>
+
                   {order.topic && (
-                    <div className="text-xs text-zinc-700">
-                      {order.topic}
-                    </div>
+                    <div className="text-xs text-zinc-700">{order.topic}</div>
                   )}
+
                   <div className="mt-1 text-[11px] text-zinc-500">
-                    Created:{" "}
-                    {new Date(order.createdAt).toLocaleString()}
+                    Created: {new Date(order.createdAt).toLocaleString()}
                   </div>
+
                   {order.deadline && (
                     <div className="text-[11px] text-zinc-500">
                       Deadline:{" "}
@@ -124,14 +175,12 @@ export default function DashboardPage() {
                     </div>
                   )}
                 </div>
+
+                {/* Права частина */}
                 <div className="text-right text-[11px] text-zinc-600">
-                  <div>Pages: {order.pages}</div>
-                  <div>
-                    Status:{" "}
-                    <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] text-emerald-700">
-                      {order.status}
-                    </span>
-                  </div>
+                  <div className="mb-1">Pages: {order.pages}</div>
+
+                  <StatusBadge status={order.status} />
                 </div>
               </div>
             ))}
