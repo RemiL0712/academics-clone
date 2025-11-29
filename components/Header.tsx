@@ -48,29 +48,36 @@ export default function Header() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
-          <Link href="/" className="text-[var(--gs-accent)]">
+        <nav className="hidden items-center gap-8 text-base font-semibold tracking-wide md:flex">
+          <Link
+            href="/"
+            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
+          >
             Home
           </Link>
+
           <Link
             href="/#how-it-works"
-            className="hover:text-[var(--gs-accent)]"
+            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
           >
             How it works
           </Link>
+
           <Link
             href="/order"
-            className="hover:text-[var(--gs-accent)]"
+            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
           >
             Order Now
           </Link>
+
           <Link
             href="/contact-us"
-            className="hover:text-[var(--gs-accent)]"
+            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
           >
             Contact Us
           </Link>
         </nav>
+
 
         {/* DESKTOP AUTH */}
         <div className="hidden items-center gap-4 text-sm md:flex">
