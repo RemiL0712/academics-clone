@@ -38,18 +38,13 @@ export default function Header() {
         {/* LOGO + BRAND */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/genscript-logo.jpeg"
+            src="/genscript-logo.svg"
             alt="GenScript.online"
-            width={40}
-            height={40}
-            className="h-8 w-auto"
+            width={120}
+            height={120}
             priority
           />
 
-
-          <span className="text-sm font-semibold tracking-wide">
-            GenScript.online
-          </span>
         </Link>
 
         {/* DESKTOP NAV */}
