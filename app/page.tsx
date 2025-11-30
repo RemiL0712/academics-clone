@@ -20,7 +20,7 @@ export default function HomePage() {
               </div>
 
               <h1 className="mb-4 text-3xl font-semibold leading-tight tracking-tight text-[var(--gs-primary-deep)] md:text-4xl">
-                111Struggling to keep up with all of your homework?
+                Struggling to keep up with all of your homework?
               </h1>
 
               <p className="mb-6 max-w-xl text-sm leading-relaxed text-[var(--gs-text-muted)] md:text-[15px]">
