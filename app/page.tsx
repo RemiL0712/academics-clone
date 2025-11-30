@@ -361,63 +361,93 @@ export default function HomePage() {
           </div>
 
           {/* Cards */}
-          <div className="h-full rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
-
-            {/* LEFT CARD — FREE SERVICES */}
-            <Reveal>
-              <div className="rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
-                <h3 className="mb-6 text-xl font-semibold text-[var(--gs-primary-deep)]">
+          <div className="mt-10 rounded-[32px] bg-white/60 p-6 shadow-sm ring-1 ring-[var(--gs-border)] sm:p-10">
+            <div className="grid gap-8 md:grid-cols-2">
+              {/* ЛІВА КАРТКА – Free services */}
+              <Reveal>
+              <div className="rounded-[28px] bg-white p-8 shadow-sm">
+                
+                <h3 className="text-xl font-semibold text-[var(--gs-primary-deep)]">
                   Free services
                 </h3>
 
-                <ul className="space-y-3 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                <ul className="mt-6 space-y-3 text-sm text-[var(--gs-text-muted)]">
+                  <li className="flex gap-3">
+                    <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--gs-primary-light)] text-[var(--gs-primary-deep)] text-xs">
+                      ✓
+                    </span>
                     <span>Creating and managing orders inside your account</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                  <li className="flex gap-3">
+                    <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--gs-primary-light)] text-[var(--gs-primary-deep)] text-xs">
+                      ✓
+                    </span>
                     <span>Secure upload and safe storage of all attached files</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
+                  <li className="flex gap-3">
+                    <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--gs-primary-light)] text-[var(--gs-primary-deep)] text-xs">
+                      ✓
+                    </span>
                     <span>Keeping the full order history in one place</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="mt-1 text-[var(--gs-primary)]">✔</span>
-                    <span>Continuous communication and basic support at no extra cost</span>
+                  <li className="flex gap-3">
+                    <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--gs-primary-light)] text-[var(--gs-primary-deep)] text-xs">
+                      ✓
+                    </span>
+                    <span>
+                      Continuous communication and basic support at no extra cost
+                    </span>
                   </li>
                 </ul>
+                
               </div>
-            </Reveal>
+              </Reveal>
 
-            {/* RIGHT CARD — COST */}
-            <Reveal delay={120}>
-              <div className="rounded-3xl bg-[var(--gs-surface-soft)] p-8 shadow-sm">
-                <h3 className="mb-6 text-xl font-semibold text-[var(--gs-primary-deep)]">
-                  Starting cost
-                </h3>
+              {/* ПРАВА КАРТКА – Starting cost + кнопка + іконки */}
+              <Reveal>
+              <div className="flex flex-col justify-between rounded-[28px] bg-[var(--gs-primary-deep)] p-8 text-white shadow-sm">
+                
+                <div>
+                  <h3 className="text-xl font-semibold">Starting cost</h3>
 
-                <p className="mb-4 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
-                  Pricing depends on the deadline, subject area, complexity and word count. 
-                  Before confirming an order, you see an approximate total based on these factors.
-                </p>
+                  <p className="mt-4 text-sm text-white/80">
+                    Pricing depends on the deadline, subject area, complexity and word
+                    count. Before confirming an order, you see an approximate total based
+                    on these factors.
+                  </p>
 
-                <p className="mb-6 text-[15px] leading-relaxed text-[var(--gs-text-muted)]">
-                  Our base rate starts at <strong>$0.03 per word</strong>. Final pricing is 
-                  always adjusted individually so you only pay for what you actually need.
-                </p>
+                  <p className="mt-6 text-sm text-white/80">
+                    Our base rate starts at{" "}
+                    <span className="font-semibold">$0.03 per word</span>. Final pricing
+                    is always adjusted individually so you only pay for what you actually
+                    need.
+                  </p>
 
-                <Link
-                  href="/order"
-                  className="inline-flex rounded-full bg-[var(--gs-primary)] px-8 py-3 text-[15px] font-medium text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--gs-primary-mid)] hover:shadow-md"
-                >
-                  Create an order
-                </Link>
+                  <p className="mt-6 text-3xl font-bold text-[var(--gs-accent)]">
+                    $0.03 <span className="text-base font-semibold">/ per word</span>
+                  </p>
+                </div>
+
+                <div className="mt-8 flex flex-col gap-4">
+                  <a
+                    href="/order"
+                    className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--gs-primary-deep)] shadow-md transition hover:bg-[var(--gs-primary-light)]"
+                  >
+                    Create an order
+                  </a>
+
+                  <div className="flex items-center gap-3 opacity-90">
+                    <img src="/payments/visa.svg" alt="Visa" className="h-5" />
+                    <img src="/payments/mastercard.svg" alt="Mastercard" className="h-5" />
+                    <img src="/payments/paypal.svg" alt="PayPal" className="h-5" />
+                  </div>
+                </div>
+                
               </div>
-            </Reveal>
-
+              </Reveal>
+            </div>
           </div>
+
         </div>
       </section>
 
