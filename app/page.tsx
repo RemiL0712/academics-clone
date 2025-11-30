@@ -365,7 +365,7 @@ export default function HomePage() {
             <div className="grid gap-8 md:grid-cols-2">
               {/* ЛІВА КАРТКА – Free services */}
               <Reveal>
-              <div className="rounded-[28px] bg-white p-8 shadow-sm">
+              <div className="rounded-[28px] bg-white p-8 shadow-sm flex flex-col h-full">
                 
                 <h3 className="text-xl font-semibold text-[var(--gs-primary-deep)]">
                   Free services

@@ -63,51 +63,52 @@ export default function ContactUsPage() {
             <form
                 className="space-y-4"
                 onSubmit={async (e: FormEvent<HTMLFormElement>) => {
-                e.preventDefault();
+                  e.preventDefault();
 
-                const formData = new FormData(e.currentTarget);
-                const name = (formData.get("name") as string)?.trim();
-                const email = (formData.get("email") as string)?.trim();
-                const message = (formData.get("message") as string)?.trim();
+                  const form = e.currentTarget;        // ← зберігаємо форму
 
-                const grecaptcha = (window as any).grecaptcha;
+                  const formData = new FormData(form);
+                  const name = (formData.get("name") as string)?.trim();
+                  const email = (formData.get("email") as string)?.trim();
+                  const message = (formData.get("message") as string)?.trim();
 
-                // 1) капча взагалі завантажилась?
-                if (!grecaptcha || typeof grecaptcha.getResponse !== "function") {
+                  const grecaptcha = (window as any).grecaptcha;
+
+                  if (!grecaptcha || typeof grecaptcha.getResponse !== "function") {
                     alert("Captcha is not loaded yet. Please reload the page and try again.");
                     return;
-                }
+                  }
 
-                let token = "";
-                try {
+                  let token = "";
+                  try {
                     token = grecaptcha.getResponse();
-                } catch (err) {
+                  } catch (err) {
                     alert("Captcha is not initialized correctly. Please reload the page.");
                     return;
-                }
+                  }
 
-                if (!token) {
+                  if (!token) {
                     alert("Please confirm that you are not a robot.");
                     return;
-                }
+                  }
 
-                const res = await fetch("/api/contact", {
+                  const res = await fetch("/api/contact", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ name, email, message, token }),
-                });
+                  });
 
-                if (res.ok) {
+                  if (res.ok) {
                     alert("Message sent!");
-                    grecaptcha.reset();
-                    e.currentTarget.reset();
-                } else {
+                    if (grecaptcha && typeof grecaptcha.reset === "function") {
+                      grecaptcha.reset();
+                    }
+                    form.reset();                      // ← використовуємо збережену форму
+                  } else {
                     alert("Error sending message");
-                }
+                  }
                 }}
-
-                >
-
+              >
               <div className="space-y-1">
                 <label
                   htmlFor="name"
@@ -163,7 +164,7 @@ export default function ContactUsPage() {
               <div className="mt-3">
                 <div
                     className="g-recaptcha"
-                    data-sitekey="ТВІЙ_SITE_KEY_ВІД_GOOGLE"
+                    data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                 ></div>
                 </div>
 
