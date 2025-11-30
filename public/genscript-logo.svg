@@ -1,9 +1,0 @@
-<svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#111827">
-    <path d="M60 20H30c-3.3 0-6 2.7-6 6v48c0 3.3 2.7 6 6 6h30c3.3 0 6-2.7 6-6V26c0-3.3-2.7-6-6-6zm-1.5 4L66 31.5v40c0 2.2-1.8 4-4 4H32c-2.2 0-4-1.8-4-4V26c0-2.2 1.8-4 4-4h26.5z"></path>
-    <path d="M42 50l-8-5 8-5v-5l-14 10 14 10v-5zm14-20h-4l-10 30h4l10-30zm6 15l8 5-8 5v5l14-10-14-10v5z"></path>
-  </g>
-  <text x="100" y="60" font-family="Arial, sans-serif" font-size="32" fill="#111827" font-weight="700">
-    GETSCRIPT
-  </text>
-</svg>

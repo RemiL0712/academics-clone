@@ -107,9 +107,16 @@ export default function Footer() {
         </div>
 
         {/* Нижній рядок */}
-        <div className="mt-8 border-t border-white/10 pt-4 text-[11px] text-white/50 md:flex md items-center md:justify-between">
+        <div className="mt-8 border-t border-white/10 pt-4 text-[11px] text-white/50 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <span>© {year} GenScript.online — academic support service</span>
+
+          <div className="flex items-center gap-3">
+            <img src="/payments/visa.svg" alt="Visa" className="h-5" />
+            <img src="/payments/mastercard.svg" alt="Mastercard" className="h-5" />
+            <img src="/payments/paypal.svg" alt="PayPal" className="h-5" />
+          </div>
         </div>
+
       </div>
     </footer>
   );

@@ -38,7 +38,7 @@ export default function Header() {
         {/* LOGO + BRAND */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/genscript-logo.svg"
+            src="/logo.ico"
             alt="GenScript.online"
             width={120}
             height={120}
@@ -51,28 +51,28 @@ export default function Header() {
         <nav className="hidden items-center gap-8 text-base font-semibold tracking-wide md:flex">
           <Link
             href="/"
-            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
+             className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Home
           </Link>
 
           <Link
             href="/#how-it-works"
-            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
+             className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             How it works
           </Link>
 
           <Link
             href="/order"
-            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
+             className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Order Now
           </Link>
 
           <Link
             href="/contact-us"
-            className="text-[var(--gs-primary-deep)] hover:text-[var(--gs-accent)]"
+             className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Contact Us
           </Link>
@@ -91,7 +91,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/register"
-                className="rounded-full border border-white px-5 py-1.5 text-sm font-medium text-white transition hover:bg-white hover:text-[var(--gs-primary-deep)]"
+                className="rounded-full border border-[var(--gs-primary-deep)] px-5 py-1.5 text-sm font-semibold text-[var(--gs-primary-deep)] bg-white/90 transition hover:bg-[var(--gs-primary-deep)] hover:text-white"
             >
                 Sign Up
               </Link>
@@ -102,13 +102,13 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="hover:text-[var(--gs-accent)]"
+                className="text-[var(--gs-primary-deep)] hover:text-black"
               >
                 My orders
               </Link>
               <button
                 onClick={handleLogout}
-                className="hover:text-[var(--gs-accent)]"
+                className="text-[var(--gs-primary-deep)] hover:text-black"
               >
                 Logout ({user.name})
               </button>

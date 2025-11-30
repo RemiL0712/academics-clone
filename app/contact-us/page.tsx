@@ -1,6 +1,8 @@
 // app/contact-us/page.tsx
 "use client";
 
+import { FormEvent } from "react";
+
 export default function ContactUsPage() {
   return (
     <main className="min-h-[60vh] bg-[var(--gs-bg)] px-4 py-16">
@@ -59,12 +61,53 @@ export default function ContactUsPage() {
             </h2>
 
             <form
-              className="space-y-4"
-              onSubmit={(e) => {
+                className="space-y-4"
+                onSubmit={async (e: FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
-                // TODO: підключити реальний API, наприклад /api/contact
-              }}
-            >
+
+                const formData = new FormData(e.currentTarget);
+                const name = (formData.get("name") as string)?.trim();
+                const email = (formData.get("email") as string)?.trim();
+                const message = (formData.get("message") as string)?.trim();
+
+                const grecaptcha = (window as any).grecaptcha;
+
+                // 1) капча взагалі завантажилась?
+                if (!grecaptcha || typeof grecaptcha.getResponse !== "function") {
+                    alert("Captcha is not loaded yet. Please reload the page and try again.");
+                    return;
+                }
+
+                let token = "";
+                try {
+                    token = grecaptcha.getResponse();
+                } catch (err) {
+                    alert("Captcha is not initialized correctly. Please reload the page.");
+                    return;
+                }
+
+                if (!token) {
+                    alert("Please confirm that you are not a robot.");
+                    return;
+                }
+
+                const res = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, message, token }),
+                });
+
+                if (res.ok) {
+                    alert("Message sent!");
+                    grecaptcha.reset();
+                    e.currentTarget.reset();
+                } else {
+                    alert("Error sending message");
+                }
+                }}
+
+                >
+
               <div className="space-y-1">
                 <label
                   htmlFor="name"
@@ -117,10 +160,13 @@ export default function ContactUsPage() {
               </div>
 
               {/* Плейсхолдер reCAPTCHA */}
-              <div className="flex items-center gap-3 rounded-xl border border-[var(--gs-border)] bg-white px-4 py-3 text-xs text-[var(--gs-text-muted)] shadow-sm">
-                <span className="inline-block h-4 w-4 rounded border-2 border-[var(--gs-border)]" />
-                <span>I&apos;m not a robot (captcha placeholder)</span>
-              </div>
+              <div className="mt-3">
+                <div
+                    className="g-recaptcha"
+                    data-sitekey="ТВІЙ_SITE_KEY_ВІД_GOOGLE"
+                ></div>
+                </div>
+
 
               <button
                 type="submit"
