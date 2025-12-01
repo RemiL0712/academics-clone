@@ -118,13 +118,36 @@ export default function Header() {
 
         {/* MOBILE TOGGLE */}
         <button
-          className="inline-flex items-center justify-center rounded-full border border-white/40 p-1.5 md:hidden"
+          type="button"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--gs-primary)] text-white shadow-sm md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
-          aria-label="Toggle navigation"
+          aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
         >
-          <span className="block h-[2px] w-5 bg-white" />
-          <span className="mt-1 block h-[2px] w-5 bg-white" />
+          <span className="relative block h-4 w-5">
+            {/* верхня лінія */}
+            <span
+              className={
+                "absolute left-0 top-0 h-[2px] w-full rounded-full bg-current transition-transform duration-200 " +
+                (mobileOpen ? "translate-y-1.5 rotate-45" : "")
+              }
+            />
+            {/* середня лінія */}
+            <span
+              className={
+                "absolute left-0 top-1.5 h-[2px] w-full rounded-full bg-current transition-opacity duration-200 " +
+                (mobileOpen ? "opacity-0" : "opacity-100")
+              }
+            />
+            {/* нижня лінія */}
+            <span
+              className={
+                "absolute left-0 top-3 h-[2px] w-full rounded-full bg-current transition-transform duration-200 " +
+                (mobileOpen ? "-translate-y-1.5 -rotate-45" : "")
+              }
+            />
+          </span>
         </button>
+
       </div>
 
       {/* MOBILE MENU */}
