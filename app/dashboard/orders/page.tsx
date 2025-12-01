@@ -2,18 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { StatusBadge } from "@/components/StatusBadge";
-
-type OrderStatus = "NEW" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
-
-type Order = {
-  id: string;
-  type: string;
-  topic?: string | null;
-  createdAt: string;
-  deadline?: string | null;
-  pages: number;
-  status: OrderStatus;
-};
+import { Order } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 type User = {
   id: number;
@@ -21,10 +11,13 @@ type User = {
   email: string;
 };
 
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
+  // ===== LOAD ORDERS =====
   useEffect(() => {
     const stored =
       typeof window !== "undefined" ? localStorage.getItem("user") : null;
@@ -34,88 +27,194 @@ export default function OrdersPage() {
       return;
     }
 
-    try {
-      const parsed = JSON.parse(stored) as User;
+    let user: User;
 
-      fetch(`/api/orders?userId=${parsed.id}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to load orders");
-          return res.json();
-        })
-        .then((data) => {
-          setOrders(data.orders ?? data);
-        })
-        .catch((err) => {
-          console.error("Fetch orders error", err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    try {
+      user = JSON.parse(stored) as User;
     } catch (err) {
-      console.error("User parse error", err);
+      console.error("Failed to parse user from localStorage", err);
       setLoading(false);
+      return;
     }
+
+    const loadOrders = async () => {
+      try {
+        const res = await fetch(`/api/orders?userId=${user.id}`);
+        if (!res.ok) throw new Error("Failed to load orders");
+        const data = await res.json();
+        setOrders(data.orders || []);
+      } catch (err) {
+        console.error("Failed to load orders", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadOrders();
   }, []);
 
+
+  // ===== PAY ORDER =====
+  const handlePay = async (orderId: number) => {
+    try {
+      const res = await fetch("/api/orders/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+
+      if (!res.ok) throw new Error("Failed to pay order");
+
+      const data = await res.json();
+      const updated = data.order;
+
+      setOrders((prev) =>
+        prev.map((o) => (o.id === updated.id ? updated : o))
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Error updating payment status.");
+    }
+  };
+
+  // ===== VIEW ORDER =====
+  const handleView = (order: Order) => {
+  router.push(`/dashboard/orders/${order.id}`);
+};
+
+  // ===== CANCEL ORDER =====
+  const handleCancel = async (orderId: number) => {
+    if (!confirm("Are you sure you want to cancel this order?")) return;
+
+    try {
+      const res = await fetch("/api/orders/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+
+      if (!res.ok) throw new Error("Failed to cancel order");
+
+      const data = await res.json();
+      const updated = data.order;
+
+      setOrders((prev) =>
+        prev.map((o) => (o.id === updated.id ? updated : o))
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Error cancelling order.");
+    }
+  };
+
   return (
-    <>
-      <h1 className="mb-2 text-2xl font-semibold text-[var(--gs-primary)]">
-        Your orders
+    <main className="p-6">
+      <h1 className="mb-6 text-2xl font-semibold text-[var(--gs-dark)]">
+        My Orders
       </h1>
-      <p className="mb-6 text-sm text-zinc-700">
-        Here you can see your orders and their statuses.
-      </p>
 
-      <section className="rounded-2xl border border-[var(--gs-light)] bg-white/90 p-5 shadow-sm">
-        {loading && (
-          <p className="text-sm text-zinc-600">Loading orders...</p>
-        )}
+      {/* Loading */}
+      {loading && (
+        <p className="text-sm text-zinc-500">Loading orders...</p>
+      )}
 
-        {!loading && orders.length === 0 && (
-          <p className="text-sm text-zinc-600">You have no orders yet.</p>
-        )}
+      {/* No orders */}
+      {!loading && orders.length === 0 && (
+        <p className="text-sm text-zinc-500">You have no orders yet.</p>
+      )}
 
-        {!loading && orders.length > 0 && (
-          <div className="space-y-3">
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="flex items-start justify-between rounded-xl border border-[var(--gs-light)] bg-[var(--gs-bg)] px-4 py-3 text-sm"
-              >
-                {/* Ліва частина */}
-                <div>
-                  <div className="font-medium text-[var(--gs-dark)]">
-                    {order.type}
-                  </div>
+      {/* Orders table */}
+      {!loading && orders.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr className="bg-[var(--gs-bg)] text-xs font-semibold uppercase tracking-wide text-[var(--gs-text-muted)]">
+                <th className="px-6 py-3 text-left">Order</th>
+                <th className="px-6 py-3 text-left">Created</th>
+                <th className="px-6 py-3 text-left">Deadline</th>
+                <th className="px-6 py-3 text-left">Pages</th>
+                <th className="px-6 py-3 text-left">Status</th>
+                <th className="px-6 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
 
-                  {order.topic && (
-                    <div className="text-xs text-zinc-700">
-                      {order.topic}
+            <tbody>
+              {orders.map((order) => (
+                <tr
+                  key={order.id}
+                  className="border-t border-[var(--gs-light)] bg-white hover:bg-[var(--gs-bg)]/60 transition-colors"
+                >
+                  {/* Order */}
+                  <td className="px-6 py-4 font-medium text-[var(--gs-dark)]">
+                    #{order.id}
+                    {order.type && (
+                      <div className="text-xs text-[var(--gs-text-muted)]">
+                        {order.type}
+                      </div>
+                    )}
+                    {order.topic && (
+                      <div className="text-xs text-zinc-600">
+                        {order.topic}
+                      </div>
+                    )}
+                  </td>
+
+                  {/* Created */}
+                  <td className="px-6 py-4 text-xs text-zinc-700">
+                    {order.createdAt
+                      ? new Date(order.createdAt).toLocaleDateString()
+                      : "—"}
+                  </td>
+
+                  {/* Deadline */}
+                  <td className="px-6 py-4 text-xs text-zinc-700">
+                    {order.deadline
+                      ? new Date(order.deadline).toLocaleDateString()
+                      : "—"}
+                  </td>
+
+                  {/* Pages */}
+                  <td className="px-6 py-4 text-xs text-zinc-700">
+                    {order.pages ?? "—"}
+                  </td>
+
+                  {/* Status */}
+                  <td className="px-6 py-4">
+                    <StatusBadge status={order.status} />
+                  </td>
+
+                  {/* Actions */}
+                  <td className="px-6 py-4 text-right text-xs">
+                    <div className="inline-flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handlePay(order.id)}
+                        className="rounded-full bg-[var(--gs-primary)] px-3 py-1 font-medium text-white hover:bg-[var(--gs-primary-deep)]"
+                      >
+                        Pay
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleView(order)}
+                        className="rounded-full border border-[var(--gs-primary)] px-3 py-1 font-medium text-[var(--gs-primary)] hover:bg-[var(--gs-primary)] hover:text-white"
+                      >
+                        View
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleCancel(order.id)}
+                        className="rounded-full border border-zinc-300 px-3 py-1 font-medium text-zinc-700 hover:bg-zinc-100"
+                      >
+                        Cancel
+                      </button>
                     </div>
-                  )}
-
-                  <div className="mt-1 text-[11px] text-zinc-500">
-                    Created: {new Date(order.createdAt).toLocaleString()}
-                  </div>
-
-                  {order.deadline && (
-                    <div className="text-[11px] text-zinc-500">
-                      Deadline:{" "}
-                      {new Date(order.deadline).toLocaleDateString()}
-                    </div>
-                  )}
-                </div>
-
-                {/* Права частина */}
-                <div className="text-right text-[11px] text-zinc-600">
-                  <div className="mb-1">Pages: {order.pages}</div>
-                  <StatusBadge status={order.status} />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-    </>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </main>
   );
 }

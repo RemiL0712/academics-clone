@@ -24,8 +24,9 @@ model Order {
   deadline  DateTime?
   pages     Int
   fileUrl   String?
+  total     Float    @default(0)    // ← ДОДАТИ ЦЕ
   status    String   @default("pending")
-  details   String?   // 🔹 додали
+  details   String?
   createdAt DateTime @default(now())
 
   user   User @relation(fields: [userId], references: [id])

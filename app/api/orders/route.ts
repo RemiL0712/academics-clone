@@ -14,9 +14,9 @@ export async function POST(req: Request) {
       status,
     } = body;
 
-    if (!userId || !type || !pages) {
+    if (!userId || !type) {
       return NextResponse.json(
-        { error: "userId, type and pages are required" },
+        { error: "userId and type are required" },
         { status: 400 }
       );
     }
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         type: String(type),
         topic: topic ? String(topic) : null,
         deadline: deadline ? new Date(deadline) : null,
-        pages: Number(pages),
+        pages: pages ? Number(pages) : 1,
         details: details ? String(details) : null,
         status: status ?? "pending",
       },
@@ -48,15 +48,11 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: "userId is required" },
-        { status: 400 }
-      );
-    }
+    // якщо userId немає — просто віддаємо всі ордери (для демо / адмінки)
+    const where = userId ? { userId: Number(userId) } : undefined;
 
     const orders = await prisma.order.findMany({
-      where: { userId: Number(userId) },
+      ...(where ? { where } : {}),
       orderBy: { createdAt: "desc" },
     });
 
