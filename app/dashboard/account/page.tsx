@@ -6,6 +6,7 @@ type User = {
   id: number;
   name: string;
   email: string;
+  displayName?: string; // 🔹 зберігаємо окремо тільки у localStorage
 };
 
 export default function AccountDetailsPage() {
@@ -39,13 +40,14 @@ export default function AccountDetailsPage() {
       const parsed = JSON.parse(stored) as User;
       setUser(parsed);
 
-      const fullName = parsed.name || "";
+      const fullName = (parsed.name || "").trim();
       const [fn, ...rest] = fullName.split(" ");
       const ln = rest.join(" ");
 
       setFirstName(fn || "");
       setLastName(ln || "");
-      setDisplayName(fullName || "");
+      // якщо в localStorage вже є displayName — беремо його, інакше fullName
+      setDisplayName(parsed.displayName || fullName || "");
       setEmail(parsed.email || "");
     } catch (err) {
       console.error("Failed to parse user from localStorage", err);
@@ -84,13 +86,16 @@ export default function AccountDetailsPage() {
 
     setSaving(true);
 
+    // ім'я, яке точно містить first + last
+    const fullNameToSave = `${firstName} ${lastName}`.trim();
+
     try {
       const res = await fetch("/api/account/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: user.id,
-          name: displayName || `${firstName} ${lastName}`.trim(),
+          name: fullNameToSave, // 🔹 у БД завжди зберігаємо fullName
           email,
           currentPassword: currentPassword || null,
           newPassword: newPassword || null,
@@ -103,11 +108,16 @@ export default function AccountDetailsPage() {
         throw new Error(data?.error || "Failed to update account.");
       }
 
+      const fullNameFromServer = data.user?.name || fullNameToSave;
+
       const updated: User = {
         id: data.user.id,
-        name: data.user.name,
+        name: fullNameFromServer,
         email: data.user.email,
+        // 🔹 зберігаємо displayName окремо в localStorage
+        displayName: displayName || fullNameFromServer,
       };
+
       localStorage.setItem("user", JSON.stringify(updated));
       setUser(updated);
 
@@ -207,7 +217,7 @@ export default function AccountDetailsPage() {
           </p>
         </div>
 
-        {/* Email — окремий рядок, як у прикладі */}
+        {/* Email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-[var(--gs-dark)]">
             Email address <span className="text-red-500">*</span>
@@ -221,7 +231,7 @@ export default function AccountDetailsPage() {
           />
         </div>
 
-        {/* PASSWORD CHANGE — все в один стовпець */}
+        {/* PASSWORD CHANGE */}
         <div className="space-y-4">
           <h2 className="text-sm font-semibold text-[var(--gs-dark)]">
             Password change
