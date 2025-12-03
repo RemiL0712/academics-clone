@@ -47,9 +47,8 @@ export async function POST(req: Request) {
         to: [process.env.MAIL_TO as string],
         subject: "New contact form message",
         text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
-        // reply_to: email, // тимчасово прибрали
+        // reply_to: email,
       });
-
 
       if (error) {
         console.error("Resend email error:", error);
@@ -64,6 +63,7 @@ export async function POST(req: Request) {
       console.error("Resend sendMail error:", e);
       return NextResponse.json({ error: "Email send error" }, { status: 500 });
     }
+
 
     return NextResponse.json({ ok: true });
   } catch (error) {
