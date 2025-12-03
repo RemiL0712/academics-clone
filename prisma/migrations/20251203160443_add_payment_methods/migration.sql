@@ -1,0 +1,12 @@
+-- CreateTable
+CREATE TABLE "PaymentMethod" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "brand" TEXT NOT NULL,
+    "last4" TEXT NOT NULL,
+    "expMonth" INTEGER NOT NULL,
+    "expYear" INTEGER NOT NULL,
+    "holder" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userId" INTEGER NOT NULL,
+    CONSTRAINT "PaymentMethod_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

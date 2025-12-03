@@ -101,6 +101,13 @@ export default function Header() {
           {user && (
             <>
               <Link
+                href="/cart"
+                className="text-[var(--gs-primary-deep)] hover:text-black"
+              >
+                Your cart
+              </Link>
+
+              <Link
                 href="/dashboard"
                 className="rounded-full bg-[var(--gs-primary)] px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--gs-primary-deep)] transition"
               >
@@ -108,6 +115,7 @@ export default function Header() {
               </Link>
             </>
           )}
+
 
         </div>
 
@@ -186,6 +194,13 @@ export default function Header() {
             {user && (
               <>
                 <Link
+                  href="/cart"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Your cart
+                </Link>
+
+                <Link
                   href="/dashboard"
                   onClick={() => setMobileOpen(false)}
                   className="rounded-full bg-[var(--gs-primary)] px-4 py-2 text-center text-white font-semibold shadow-sm"
@@ -194,6 +209,7 @@ export default function Header() {
                 </Link>
               </>
             )}
+
 
           </nav>
         </div>

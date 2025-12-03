@@ -63,9 +63,9 @@ export default function PayPage() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border bg-white p-6 shadow-sm">
-        <h1 className="mb-2 text-xl font-semibold">Оплата замовлення</h1>
+        <h1 className="mb-2 text-xl font-semibold">Order Payment</h1>
         <p className="mb-6 text-sm text-zinc-600">
-          Ви оформлюєте оплату за замовлення{" "}
+          You are making a payment for order{" "}
           <span className="font-semibold">#{orderId}</span>.
         </p>
 
@@ -75,7 +75,7 @@ export default function PayPage() {
           disabled={isPaying}
           className="w-full rounded-lg bg-[var(--gs-primary)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
         >
-          {isPaying ? "Обробка оплати..." : "Оплатити замовлення"}
+          {isPaying ? "Processing payment..." : "Pay for order"}
         </button>
       </div>
     </div>

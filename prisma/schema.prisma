@@ -14,31 +14,31 @@ model User {
   password  String
   createdAt DateTime @default(now())
 
-  orders   Order[]
-  address  Address?
+  orders         Order[]
+  address        Address?
+  paymentMethods PaymentMethod[] // 🔹 додали цей рядок
 }
 
-
 model Order {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   type      String
   topic     String?
   deadline  DateTime?
   pages     Int
   fileUrl   String?
-  total     Float    @default(0)    // ← ДОДАТИ ЦЕ
-  status    String   @default("pending")
+  total     Float     @default(0) // ← ДОДАТИ ЦЕ
+  status    String    @default("pending")
   details   String?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
 }
 
 model Address {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int      @unique
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
 
   firstName String
   lastName  String
@@ -55,3 +55,15 @@ model Address {
   updatedAt DateTime @updatedAt
 }
 
+model PaymentMethod {
+  id        Int      @id @default(autoincrement())
+  brand     String
+  last4     String
+  expMonth  Int
+  expYear   Int
+  holder    String
+  createdAt DateTime @default(now())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}

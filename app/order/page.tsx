@@ -109,8 +109,7 @@ export default function OrderPage() {
         Place an order
       </h1>
       <p className="mb-6 text-sm text-[var(--gs-text-muted)]">
-        Заповніть деталі замовлення. Після відправки ви зможете відстежувати
-        статус у особистому кабінеті.
+        Fill in the details of your order. After submission, you will be able to track its status in your dashboard.
       </p>
 
       <form
@@ -343,8 +342,7 @@ export default function OrderPage() {
               className="block w-full text-sm text-zinc-700 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-[var(--gs-surface-soft)] file:px-3 file:py-2 file:text-[var(--gs-primary)] hover:file:bg-[var(--gs-surface-strong)]"
             />
             <p className="mt-1 text-xs text-[var(--gs-text-muted)]">
-              Max file size 1 GB (файл поки що не зберігається в базу, це можна
-              доробити окремо)
+              Max file size 1 GB
             </p>
           </div>
 
@@ -368,10 +366,11 @@ export default function OrderPage() {
         {/* Кнопка */}
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-full bg-[var(--gs-primary)] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[var(--gs-mid)] transition"
+          className="mt-4 rounded-full bg-[var(--gs-primary)] px-8 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--gs-primary-deep)]"
         >
           Submit order
         </button>
+
       </form>
     </section>
   );
