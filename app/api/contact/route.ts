@@ -1,14 +1,22 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
     const { name, email, message, token } = await req.json();
 
-    // ⬇️ тимчасовий прапорець — можна керувати з env
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
     const SKIP_RECAPTCHA = process.env.SKIP_RECAPTCHA === "true";
 
-    // 1) Перевірка reCAPTCHA (можна пропустити на час дебагу)
+    // 1) Перевірка reCAPTCHA (можна вимкнути через SKIP_RECAPTCHA=true)
     if (!SKIP_RECAPTCHA) {
       const verifyRes = await fetch(
         `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
@@ -19,7 +27,10 @@ export async function POST(req: Request) {
       console.log("reCAPTCHA verifyData:", verifyData);
 
       if (!verifyData.success) {
-        console.log("reCAPTCHA failed, error-codes:", verifyData["error-codes"]);
+        console.log(
+          "reCAPTCHA failed, error-codes:",
+          verifyData["error-codes"]
+        );
         return NextResponse.json(
           { error: "Captcha verification failed" },
           { status: 400 }
@@ -29,32 +40,28 @@ export async function POST(req: Request) {
       console.log("reCAPTCHA skipped by SKIP_RECAPTCHA env");
     }
 
-    // 2) Відправка листа
-    console.log("MAIL_HOST:", process.env.MAIL_HOST);
-    console.log("MAIL_PORT:", process.env.MAIL_PORT);
-    console.log("MAIL_USER exists:", !!process.env.MAIL_USER);
-    console.log("MAIL_PASS exists:", !!process.env.MAIL_PASS);
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: Number(process.env.MAIL_PORT),
-      secure: false,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
-
+    // 2) Відправка листа через Resend (HTTP API, без SMTP)
     try {
-      await transporter.sendMail({
-        from: process.env.MAIL_USER,
-        to: process.env.MAIL_TO,
+      const { data, error } = await resend.emails.send({
+        from: "Website Contact <onboarding@resend.dev>",
+        to: [process.env.MAIL_TO as string],
         subject: "New contact form message",
         text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+        // reply_to: email, // тимчасово прибрали
       });
-      console.log("Email sent OK");
+
+
+      if (error) {
+        console.error("Resend email error:", error);
+        return NextResponse.json(
+          { error: "Email send error" },
+          { status: 500 }
+        );
+      }
+
+      console.log("Email sent OK via Resend:", data);
     } catch (e) {
-      console.error("sendMail error:", e);
+      console.error("Resend sendMail error:", e);
       return NextResponse.json({ error: "Email send error" }, { status: 500 });
     }
 
