@@ -31,6 +31,20 @@ export async function POST(req: Request) {
       },
     });
 
+    try {
+      await transporter.sendMail({
+        from: process.env.MAIL_USER,
+        to: process.env.MAIL_TO,
+        subject: "New contact form message",
+        text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+      });
+      console.log("Email sent OK");
+    } catch (e) {
+      console.error("sendMail error:", e);
+      return NextResponse.json({ error: "Email send error" }, { status: 500 });
+    }
+
+
     await transporter.sendMail({
       from: process.env.MAIL_USER,
       to: process.env.MAIL_TO,
