@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 type User = {
   id: number;
@@ -14,22 +15,54 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // 🔄 синхронізація user з localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const stored = localStorage.getItem("user");
-    if (!stored) return;
-    try {
-      setUser(JSON.parse(stored));
-    } catch {
-      setUser(null);
-    }
-  }, []);
+
+    const syncUser = () => {
+      const stored = localStorage.getItem("user");
+      if (!stored) {
+        setUser(null);
+        return;
+      }
+      try {
+        setUser(JSON.parse(stored));
+      } catch {
+        setUser(null);
+      }
+    };
+
+    // перший запуск
+    syncUser();
+
+    // оновлення при зміні localStorage з інших вкладок
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "user") {
+        syncUser();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+    };
+  }, [pathname]); // 🟡 при кожній зміні маршруту перечитуємо user
 
   const handleLogout = () => {
     if (typeof window === "undefined") return;
+
+    // повністю чистимо дані авторизації
     localStorage.removeItem("user");
+    // якщо зберігатимеш токен/кошик — теж прибери тут
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("cart");
     setUser(null);
-    window.location.href = "/login";
+
+    router.push("/login");
+    router.refresh();
   };
 
   return (
@@ -44,55 +77,50 @@ export default function Header() {
             height={120}
             priority
           />
-
         </Link>
 
         {/* DESKTOP NAV */}
         <nav className="hidden items-center gap-8 text-base font-semibold tracking-wide md:flex">
           <Link
             href="/"
-             className="text-[var(--gs-primary-deep)] hover:text-black"
+            className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Home
           </Link>
 
           <Link
             href="/#how-it-works"
-             className="text-[var(--gs-primary-deep)] hover:text-black"
+            className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             How it works
           </Link>
 
           <Link
             href="/order"
-             className="text-[var(--gs-primary-deep)] hover:text-black"
+            className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Order Now
           </Link>
 
           <Link
             href="/contact-us"
-             className="text-[var(--gs-primary-deep)] hover:text-black"
+            className="text-[var(--gs-primary-deep)] hover:text-black"
           >
             Contact Us
           </Link>
         </nav>
 
-
         {/* DESKTOP AUTH */}
         <div className="hidden items-center gap-4 text-sm md:flex">
           {!user && (
             <>
-              <Link
-                href="/login"
-                className="hover:text-[var(--gs-accent)]"
-              >
+              <Link href="/login" className="hover:text-[var(--gs-accent)]">
                 Login
               </Link>
               <Link
                 href="/register"
-                className="rounded-full border border-[var(--gs-primary-deep)] px-5 py-1.5 text-sm font-semibold text-[var(--gs-primary-deep)] bg-white/90 transition hover:bg-[var(--gs-primary-deep)] hover:text-white"
-            >
+                className="rounded-full border border-[var(--gs-primary-deep)] bg-white/90 px-5 py-1.5 text-sm font-semibold text-[var(--gs-primary-deep)] transition hover:bg-[var(--gs-primary-deep)] hover:text-white"
+              >
                 Sign Up
               </Link>
             </>
@@ -109,14 +137,12 @@ export default function Header() {
 
               <Link
                 href="/dashboard"
-                className="rounded-full bg-[var(--gs-primary)] px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--gs-primary-deep)] transition"
+                className="rounded-full bg-[var(--gs-primary)] px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--gs-primary-deep)]"
               >
                 Dashboard
               </Link>
             </>
           )}
-
-
         </div>
 
         {/* MOBILE TOGGLE */}
@@ -150,7 +176,6 @@ export default function Header() {
             />
           </span>
         </button>
-
       </div>
 
       {/* MOBILE MENU */}
@@ -203,14 +228,24 @@ export default function Header() {
                 <Link
                   href="/dashboard"
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-full bg-[var(--gs-primary)] px-4 py-2 text-center text-white font-semibold shadow-sm"
+                  className="rounded-full bg-[var(--gs-primary)] px-4 py-2 text-center font-semibold text-white shadow-sm"
                 >
                   Dashboard
                 </Link>
+
+                {/* Якщо захочеш логаут прямо в мобільному меню */}
+                {<button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    handleLogout();
+                  }}
+                  className="mt-2 text-left text-red-500"
+                >
+                  Logout
+                </button>}
               </>
             )}
-
-
           </nav>
         </div>
       )}
