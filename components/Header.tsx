@@ -102,18 +102,13 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="text-[var(--gs-primary-deep)] hover:text-black"
+                className="rounded-full bg-[var(--gs-primary)] px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--gs-primary-deep)] transition"
               >
-                My orders
+                Dashboard
               </Link>
-              <button
-                onClick={handleLogout}
-                className="text-[var(--gs-primary-deep)] hover:text-black"
-              >
-                Logout ({user.name})
-              </button>
             </>
           )}
+
         </div>
 
         {/* MOBILE TOGGLE */}
@@ -193,20 +188,13 @@ export default function Header() {
                 <Link
                   href="/dashboard"
                   onClick={() => setMobileOpen(false)}
+                  className="rounded-full bg-[var(--gs-primary)] px-4 py-2 text-center text-white font-semibold shadow-sm"
                 >
-                  My orders
+                  Dashboard
                 </Link>
-                <button
-                  onClick={() => {
-                    setMobileOpen(false);
-                    handleLogout();
-                  }}
-                  className="text-left text-zinc-200"
-                >
-                  Logout ({user.name})
-                </button>
               </>
             )}
+
           </nav>
         </div>
       )}
